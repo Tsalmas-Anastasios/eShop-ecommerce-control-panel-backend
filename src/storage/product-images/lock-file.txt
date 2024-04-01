@@ -1,0 +1,1 @@
+Lock file to recognize this folder as an internal folder of the network

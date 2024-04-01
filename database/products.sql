@@ -1,0 +1,31 @@
+-- u598963739_control_panel.products definition
+
+CREATE TABLE `products` (
+  `product_id` varchar(48) NOT NULL,
+  `headline` varchar(256) NOT NULL,
+  `product_brand` varchar(48) NOT NULL,
+  `categories_belongs` longtext NOT NULL COMMENT 'categories object, format: { category1: value1, ... , categoryN: valueN }',
+  `product_code` varchar(48) NOT NULL,
+  `product_model` varchar(256) NOT NULL,
+  `stock` int(11) NOT NULL,
+  `supplied_price` float NOT NULL,
+  `clear_price` float NOT NULL,
+  `fee_percent` float NOT NULL,
+  `fees` float NOT NULL,
+  `discount_percent` float NOT NULL DEFAULT 0,
+  `discount` float NOT NULL DEFAULT 0,
+  `product_description` mediumtext NOT NULL,
+  `supplier` varchar(128) DEFAULT 'Adorithm Ltd',
+  `current_status` varchar(128) NOT NULL DEFAULT 'in_stock',
+  `archived` tinyint(1) NOT NULL DEFAULT 0,
+  `notes` mediumtext DEFAULT NULL,
+  `connected_account_id` varchar(48) NOT NULL,
+  `created_at_epoch` bigint(20) NOT NULL COMMENT 'This input should NOT be updated if the record be updated',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() COMMENT 'This input should NOT be updated if the record be updated',
+  `current_version` varchar(100) NOT NULL DEFAULT 'v0.0',
+  `product_shared` tinyint(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`product_id`),
+  KEY `products_FK` (`connected_account_id`),
+  CONSTRAINT `products_FK` FOREIGN KEY (`connected_account_id`) REFERENCES `accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `products_CHECK` CHECK (`current_status` in ('in_stock','available_1_to_3_days','available_1_to_10_days','available_1_to_30_days','with_order','unavailable','temporary_unavailable','out_of_stock','ended','closed'))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='This table saves the products corresponds to products list of a store';
