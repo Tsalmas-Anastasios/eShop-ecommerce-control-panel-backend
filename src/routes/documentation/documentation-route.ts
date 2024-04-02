@@ -22,7 +22,7 @@ export class DocumentationRoutes {
                         return utils.errorHandlingReturn({ code: 500, type: 'internal_server_error', message: error?.message || null }, res);
 
 
-                    const modifiedHtml = html.replace('documentationYamlFile', '/routes/documentation/bundle.yaml');
+                    const modifiedHtml = html.replace('documentationYamlFile', 'https://control-panel.bizyhive.com/routes/documentation/bundle.yaml');
 
 
                     res.send(modifiedHtml);
